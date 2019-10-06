@@ -169,16 +169,16 @@ func (a *AuthLog) Close() {
 //	database.Close()
 }
 
-//func (a *AuthLog) AddMetrics() {
+func (a *AuthLog) AddMetrics() {
 //	isInternal := isInternalIP(a.LastLine.IPAddress)
-//
-//	a.Metrics["line"].(*prometheus.CounterVec).With(prometheus.Labels{
-//		"hostname": a.LastLine.Hostname,
-//		"type":     a.LastLine.Type,
-//		"user":     a.LastLine.Username,
+
+	a.Metrics["line"].(*prometheus.CounterVec).With(prometheus.Labels{
+		"hostname": a.LastLine.Hostname,
+		"type":     a.LastLine.Type,
+		"user":     a.LastLine.Username,
 //		"internal": fmt.Sprintf("%t", isInternal),
-//	}).Inc()
-//
+	}).Inc()
+
 //	if a.LastLine.IPAddress != "" && dbPath != "" && !isInternal {
 //		city, err := GetIpLocationDetails(a.LastLine.IPAddress)
 //		if err != nil {
@@ -195,4 +195,4 @@ func (a *AuthLog) Close() {
 //			}).Inc()
 //		}
 //	}
-//}
+}
