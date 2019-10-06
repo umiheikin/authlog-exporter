@@ -148,7 +148,7 @@ func (a *AuthLog) SetupMetrics() {
 				Name: "authlog_exporter",
 				Help: "Number of lines seen in auth file",
 			},
-			[]string{"hostname", "type", "user", "internal"},
+			[]string{"hostname", "type", "user"},
 		),
 //		"location": prometheus.NewCounterVec(
 //			prometheus.CounterOpts{
