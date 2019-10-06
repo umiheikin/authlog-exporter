@@ -145,18 +145,16 @@ func (a *AuthLog) SetupMetrics() {
 	a.Metrics = metrics{
 		"line": prometheus.NewCounterVec(
 			prometheus.CounterOpts{
-				Name: "log_exporter_auth_lines",
+				Name: "authlog_exporter",
 				Help: "Number of lines seen in auth file",
 			},
 			[]string{"hostname", "type", "user", "internal"},
 		),
-//		"location": prometheus.NewCounterVec(
-//			prometheus.CounterOpts{
-//				Name: "log_exporter_auth_locations",
-//				Help: "Number of times each location continent/country/city has requested access",
-//			},
-//			[]string{"continentCode", "continentName", "countryCode", "countryName", "city"},
-//		),
+		"location": prometheus.NewCounterVec(
+				Help: "Number of times each location continent/country/city has requested access",
+			},
+			[]string{"continentCode", "continentName", "countryCode", "countryName", "city"},
+		),
 	}
 
 	register(a.Metrics)
@@ -179,20 +177,19 @@ func (a *AuthLog) AddMetrics() {
 		"internal": fmt.Sprintf("%t", isInternal),
 	}).Inc()
 
-//	if a.LastLine.IPAddress != "" && dbPath != "" && !isInternal {
-//		city, err := GetIpLocationDetails(a.LastLine.IPAddress)
-//		if err != nil {
-//			log.Println("Error getting ip location details", err)
-//		}
-//
-//		if city.Country.IsoCode != "" {
-//			a.Metrics["location"].(*prometheus.CounterVec).With(prometheus.Labels{
-//				"continentCode": city.Continent.Code,
-//				"continentName": city.Continent.Names["en"],
-//				"countryCode":   city.Country.IsoCode,
-//				"countryName":   city.Country.Names["en"],
-//				"city":          city.City.Names["en"],
-//			}).Inc()
-//		}
-//	}
+	if a.LastLine.IPAddress != "" && dbPath != "" && !isInternal {
+		city, err := GetIpLocationDetails(a.LastLine.IPAddress)
+		if err != nil {
+			log.Println("Error getting ip location details", err)
+		}
+
+		if city.Country.IsoCode != "" {
+			a.Metrics["location"].(*prometheus.CounterVec).With(prometheus.Labels{
+				"continentCode": city.Continent.Code,
+				"countryCode":   city.Country.IsoCode,
+				"countryName":   city.Country.Names["en"],
+				"city":          city.City.Names["en"],
+			}).Inc()
+		}
+	}
 }
