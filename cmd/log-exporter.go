@@ -11,10 +11,10 @@ var (
 	promPort      = flag.String("promethues.port", "9100", "Port for prometheus metrics to listen on")
 	promEndpoint  = flag.String("prometheus.endpoint", "/metrics", "Endpoint used for metrics")
 	authPath      = flag.String("auth.path", "", "Path to auth.log")
-	requestPath   = flag.String("request.path", "", "Path to request.log")
-	requestParser = flag.String("request.regexMatch", "", "Regex line used to match on each request line")
-	excludedIPs   = flag.String("exludedIPs", "", "list of ips to excluded. Useful to remove monitoring services")
-	geoIPPath     = flag.String("geodb", "", "Path to the geoip mmdb file. If not set geoIP lookups will not be enabled")
+//	requestPath   = flag.String("request.path", "", "Path to request.log")
+//	requestParser = flag.String("request.regexMatch", "", "Regex line used to match on each request line")
+//	excludedIPs   = flag.String("exludedIPs", "", "list of ips to excluded. Useful to remove monitoring services")
+//	geoIPPath     = flag.String("geodb", "", "Path to the geoip mmdb file. If not set geoIP lookups will not be enabled")
 	debug         = flag.Bool("debug", false, "Run full scan on test logs file")
 )
 
@@ -28,7 +28,7 @@ func main() {
 	// Setup data for exporters
 	exporter.SetDebugging(*debug)
 //	exporter.SetGeoIPPath(*geoIPPath)
-	exporter.SetExludeIPs(*excludedIPs)
+//	exporter.SetExludeIPs(*excludedIPs)
 	exporter.SetPrometheusEndpointAndPort(*promEndpoint, *promPort)
 
 	if *authPath != "" {

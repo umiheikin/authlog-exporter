@@ -1,7 +1,7 @@
 package exporter
 
 import (
-	"fmt"
+//	"fmt"
 	"log"
 	"regexp"
 	"strconv"
@@ -124,7 +124,7 @@ func (a *AuthLog) ParseLine(line *tail.Line) {
 
 	a.LastLine = parsedLog
 
-	addMetric(a, parsedLog.IPAddress)
+//	addMetric(a, parsedLog.IPAddress)
 }
 
 func getMatches(line string, re *regexp.Regexp) map[string]string {
