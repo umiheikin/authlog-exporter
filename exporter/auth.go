@@ -52,7 +52,7 @@ type AuthLogLine struct {
 	Type      string
 	Hostname  string
 	Username  string
-//	IPAddress string
+	IPAddress string
 	Process   string
 	PID       int
 	RawLine   string
@@ -114,9 +114,9 @@ func (a *AuthLog) ParseLine(line *tail.Line) {
 	parsedLog.Process = matches["processName"]
 	parsedLog.PID, _ = strconv.Atoi(matches["pid"])
 
-//	if v, ok := matches["ipAddress"]; ok {
-//		parsedLog.IPAddress = v
-//	}
+	if v, ok := matches["ipAddress"]; ok {
+		parsedLog.IPAddress = v
+	}
 
 	if v, ok := matches["username"]; ok {
 		parsedLog.Username = v
@@ -124,7 +124,7 @@ func (a *AuthLog) ParseLine(line *tail.Line) {
 
 	a.LastLine = parsedLog
 
-//	addMetric(a, parsedLog.IPAddress)
+	addMetric(a, parsedLog.IPAddress)
 }
 
 func getMatches(line string, re *regexp.Regexp) map[string]string {
