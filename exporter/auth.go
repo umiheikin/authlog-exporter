@@ -52,7 +52,7 @@ type AuthLogLine struct {
 	Type      string
 	Hostname  string
 	Username  string
-	IPAddress string
+//	IPAddress string
 	Process   string
 	PID       int
 	RawLine   string
@@ -114,9 +114,9 @@ func (a *AuthLog) ParseLine(line *tail.Line) {
 	parsedLog.Process = matches["processName"]
 	parsedLog.PID, _ = strconv.Atoi(matches["pid"])
 
-	if v, ok := matches["ipAddress"]; ok {
-		parsedLog.IPAddress = v
-	}
+//	if v, ok := matches["ipAddress"]; ok {
+//		parsedLog.IPAddress = v
+//	}
 
 	if v, ok := matches["username"]; ok {
 		parsedLog.Username = v
@@ -150,13 +150,13 @@ func (a *AuthLog) SetupMetrics() {
 			},
 			[]string{"hostname", "type", "user", "internal"},
 		),
-		"location": prometheus.NewCounterVec(
-			prometheus.CounterOpts{
-			        Name: "log_exporter_auth_locations",
-				Help: "Number of times each location continent/country/city has requested access",
-			},
-			[]string{"continentCode", "continentName", "countryCode", "countryName", "city"},
-		),
+//		"location": prometheus.NewCounterVec(
+//			prometheus.CounterOpts{
+//			        Name: "log_exporter_auth_locations",
+//				Help: "Number of times each location continent/country/city has requested access",
+//			},
+//			[]string{"continentCode", "continentName", "countryCode", "countryName", "city"},
+//		),
 	}
 
 	register(a.Metrics)
@@ -170,28 +170,28 @@ func (a *AuthLog) Close() {
 }
 
 func (a *AuthLog) AddMetrics() {
-	isInternal := isInternalIP(a.LastLine.IPAddress)
+//	isInternal := isInternalIP(a.LastLine.IPAddress)
 
 	a.Metrics["line"].(*prometheus.CounterVec).With(prometheus.Labels{
 		"hostname": a.LastLine.Hostname,
 		"type":     a.LastLine.Type,
 		"user":     a.LastLine.Username,
-		"internal": fmt.Sprintf("%t", isInternal),
+//		"internal": fmt.Sprintf("%t", isInternal),
 	}).Inc()
 
-	if a.LastLine.IPAddress != "" && dbPath != "" && !isInternal {
-		city, err := GetIpLocationDetails(a.LastLine.IPAddress)
-		if err != nil {
-			log.Println("Error getting ip location details", err)
-		}
-
-		if city.Country.IsoCode != "" {
-			a.Metrics["location"].(*prometheus.CounterVec).With(prometheus.Labels{
-				"continentCode": city.Continent.Code,
-				"countryCode":   city.Country.IsoCode,
-				"countryName":   city.Country.Names["en"],
-				"city":          city.City.Names["en"],
-			}).Inc()
-		}
-	}
+//	if a.LastLine.IPAddress != "" && dbPath != "" && !isInternal {
+//		city, err := GetIpLocationDetails(a.LastLine.IPAddress)
+//		if err != nil {
+//			log.Println("Error getting ip location details", err)
+//		}
+//
+//		if city.Country.IsoCode != "" {
+//			a.Metrics["location"].(*prometheus.CounterVec).With(prometheus.Labels{
+//				"continentCode": city.Continent.Code,
+//				"countryCode":   city.Country.IsoCode,
+//				"countryName":   city.Country.Names["en"],
+//				"city":          city.City.Names["en"],
+//			}).Inc()
+//		}
+//	}
 }
