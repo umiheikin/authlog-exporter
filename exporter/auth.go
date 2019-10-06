@@ -1,7 +1,7 @@
 package exporter
 
 import (
-	"fmt"
+//	"fmt"
 	"log"
 	"regexp"
 	"strconv"
