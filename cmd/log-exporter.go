@@ -4,11 +4,11 @@ import (
 	"flag"
 	"os"
 
-	"github.com/bah2830/Log-Exporter/exporter"
+	"github.com/umiheikin/authlog-exporter/exporter"
 )
 
 var (
-	promPort      = flag.String("promethues.port", "9090", "Port for prometheus metrics to listen on")
+	promPort      = flag.String("promethues.port", "9100", "Port for prometheus metrics to listen on")
 	promEndpoint  = flag.String("prometheus.endpoint", "/metrics", "Endpoint used for metrics")
 	authPath      = flag.String("auth.path", "", "Path to auth.log")
 	requestPath   = flag.String("request.path", "", "Path to request.log")
@@ -27,7 +27,7 @@ func main() {
 
 	// Setup data for exporters
 	exporter.SetDebugging(*debug)
-	exporter.SetGeoIPPath(*geoIPPath)
+//	exporter.SetGeoIPPath(*geoIPPath)
 	exporter.SetExludeIPs(*excludedIPs)
 	exporter.SetPrometheusEndpointAndPort(*promEndpoint, *promPort)
 
@@ -37,11 +37,11 @@ func main() {
 		}
 	}
 
-	if *requestPath != "" {
-		if _, err := exporter.LoadRequestLog(*requestPath, *requestParser); err != nil {
-			panic(err)
-		}
-	}
+//	if *requestPath != "" {
+//		if _, err := exporter.LoadRequestLog(*requestPath, *requestParser); err != nil {
+//			panic(err)
+//		}
+//	}
 
 	// Start the file listeners
 	exporter.Start()
