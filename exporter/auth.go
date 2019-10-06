@@ -151,6 +151,7 @@ func (a *AuthLog) SetupMetrics() {
 			[]string{"hostname", "type", "user", "internal"},
 		),
 		"location": prometheus.NewCounterVec(
+			        Name: "log_exporter_auth_locations"
 				Help: "Number of times each location continent/country/city has requested access",
 			},
 			[]string{"continentCode", "continentName", "countryCode", "countryName", "city"},
