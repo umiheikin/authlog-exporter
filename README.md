@@ -1,2 +1,2 @@
 # authlog-exporter
-Exporter for Promrtheus to parse auth.log
+Exporter for Prometheus to parse auth.log
