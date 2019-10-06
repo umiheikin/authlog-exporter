@@ -1,7 +1,6 @@
 package exporter
 
 import (
-//	"fmt"
 	"log"
 	"regexp"
 	"strconv"
@@ -146,17 +145,10 @@ func (a *AuthLog) SetupMetrics() {
 		"line": prometheus.NewCounterVec(
 			prometheus.CounterOpts{
 				Name: "authlog_exporter",
-				Help: "Number of lines seen in auth file",
+				Help: "events from auth.log grouped by users",
 			},
 			[]string{"hostname", "type", "user"},
 		),
-//		"location": prometheus.NewCounterVec(
-//			prometheus.CounterOpts{
-//			        Name: "log_exporter_auth_locations",
-//				Help: "Number of times each location continent/country/city has requested access",
-//			},
-//			[]string{"continentCode", "continentName", "countryCode", "countryName", "city"},
-//		),
 	}
 
 	register(a.Metrics)
@@ -166,32 +158,13 @@ func (a *AuthLog) Close() {
 	a.fileHandler.Stop()
 	a.fileHandler.Cleanup()
 
-//	database.Close()
 }
 
 func (a *AuthLog) AddMetrics() {
-//	isInternal := isInternalIP(a.LastLine.IPAddress)
-
 	a.Metrics["line"].(*prometheus.CounterVec).With(prometheus.Labels{
 		"hostname": a.LastLine.Hostname,
 		"type":     a.LastLine.Type,
 		"user":     a.LastLine.Username,
-//		"internal": fmt.Sprintf("%t", isInternal),
 	}).Inc()
 
-//	if a.LastLine.IPAddress != "" && dbPath != "" && !isInternal {
-//		city, err := GetIpLocationDetails(a.LastLine.IPAddress)
-//		if err != nil {
-//			log.Println("Error getting ip location details", err)
-//		}
-//
-//		if city.Country.IsoCode != "" {
-//			a.Metrics["location"].(*prometheus.CounterVec).With(prometheus.Labels{
-//				"continentCode": city.Continent.Code,
-//				"countryCode":   city.Country.IsoCode,
-//				"countryName":   city.Country.Names["en"],
-//				"city":          city.City.Names["en"],
-//			}).Inc()
-//		}
-//	}
 }
