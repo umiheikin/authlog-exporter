@@ -170,7 +170,7 @@ func (a *AuthLog) Close() {
 }
 
 func (a *AuthLog) AddMetrics() {
-//	isInternal := isInternalIP(a.LastLine.IPAddress)
+	isInternal := isInternalIP(a.LastLine.IPAddress)
 
 	a.Metrics["line"].(*prometheus.CounterVec).With(prometheus.Labels{
 		"hostname": a.LastLine.Hostname,
